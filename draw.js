@@ -1,69 +1,63 @@
 var svg = document.getElementById("s");
-var USA = document.getElementById("USA");
-var norway = document.getElementById("Norway");
-var usa_medals = [ 9, 8, 6]
-var nor_medals = [14, 14 ,11]
+var tog = document.getElementById("switch");
+var p = document.getElementById("p1");
+
+// raw data
+var usa_medals = [9, 8, 6];
+var nor_medals = [14, 14 ,11];
+
+// global variables
+var width = parseInt( svg.getAttribute("width") );
+var height = parseInt( svg.getAttribute("height") );
+var stat = true;
+
+var newCircle = function(x, y, r, fill){
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute["cx", x ];
+    c.setAttribute["cy", y ];
+    c.setAttribute["r", r ];    
+    c.setAttribute["fill", fill ];
+    return c;
+}
 
 
+var c1 = newCircle( width / 2, height / 3, 1, "gold");
+var c2 = newCircle( width / 3, height / 2, 1, "silver");
+var c3 = newCircle( width * 2 / 3, height * 2 / 3, 1, "#8C7853");
 
+console.log( c1.getAttribute("cx") );
+console.log(width/2);
 
+svg.appendChild( c1 );
+svg.appendChild( c2 );
+svg.appendChild( c3 );
 
-var generate_usa = function(){
-    var c1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    var c2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    var c3 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-
-    var i = 0;
-    while (i < 3){
+var draw = function(){
+    var circles = d3.selectAll("circle");
+    if (stat == true){
+	circles.data(usa_medals);
+	p.innerHTML = "USA!";
     }
-    
-    
-    
-    
-    
+    else{
+	circles.data(nor_medals);
+	p.innerHTML = "NORWAY!";
+    }	
+    circles.attr("r", function(d){
+	return d * 2;
+    });
 }
 
-var drawCircle = function(e){
-    mouseX = e.offsetX.toString();
-    mouseY = e.offsetY.toString();
-    var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    circle.setAttribute("fill", "black");
-    circle.setAttribute("cx", mouseX);    
-    circle.setAttribute("cy", mouseY);
-    circle.setAttribute("r", "10");
-    svg.appendChild(circle);
-    circle.addEventListener("click", clickType);
-    
-}
-
-var clickType = function(e){
-    if (this.getAttribute("fill") == "red"){
-	svg.removeChild(this);
-	e.stopPropagation();
-	drawRandom();
+var toggle = function(){
+    if (stat == true){
+	stat = false;
     }
-    else {
-	changeColor(this);
-	e.stopPropagation();
-	console.log(svg);
+    else{
+	stat = true;
     }
+    draw();
 }
 
-var drawRandom = function(){
-    circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    circle.setAttribute("cx", (Math.floor(Math.random() * 500)).toString());
-    circle.setAttribute("cy", (Math.floor(Math.random() * 500)).toString());
-    circle.setAttribute("r", "10");
-    circle.setAttribute("fill", "black");
-    svg.appendChild(circle);
-    circle.addEventListener("click", clickType);
-}
+draw();
 
-var changeColor = function(c){
-    c.setAttribute("fill" , "red");
-}
+tog.addEventListener("click", toggle);
 
-
-
-USA.addEventListener("click", generate_usa);
-norway.addEventListener("click", generate_nor);
