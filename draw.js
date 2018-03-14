@@ -13,20 +13,16 @@ var stat = true;
 
 var newCircle = function(x, y, r, fill){
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    c.setAttribute["cx", x ];
-    c.setAttribute["cy", y ];
-    c.setAttribute["r", r ];    
-    c.setAttribute["fill", fill ];
+    c.setAttribute("cx", x );
+    c.setAttribute("cy", y );
+    c.setAttribute("r", r );    
+    c.setAttribute("fill", fill );
     return c;
 }
-
 
 var c1 = newCircle( width / 2, height / 3, 1, "gold");
 var c2 = newCircle( width / 3, height / 2, 1, "silver");
 var c3 = newCircle( width * 2 / 3, height * 2 / 3, 1, "#8C7853");
-
-console.log( c1.getAttribute("cx") );
-console.log(width/2);
 
 svg.appendChild( c1 );
 svg.appendChild( c2 );
